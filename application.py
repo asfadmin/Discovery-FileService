@@ -8,13 +8,13 @@ import string
 import random
 import time
 
-app = Flask(__name__)
-CORS(app, send_wildcard=True)
-talisman = Talisman(app)
+application = Flask(__name__)
+CORS(application, send_wildcard=True)
+talisman = Talisman(application)
 
 
 # Just send a file
-@app.route('/generate', methods = ['GET', 'POST'])
+@application.route('/generate', methods = ['GET', 'POST'])
 def generate_file():
     def generate_data(file_size=1000, slow=0):
         generated = 0
@@ -28,7 +28,7 @@ def generate_file():
 
     file_size = min(int(request.values.get('bytes', 1000)), 1e10)  # 10GB max
     slow = int(request.values.get('slow', 0))  # microseconds between file chunks
-    return app.response_class(generate_data(
+    return application.response_class(generate_data(
         file_size=file_size,
         slow=slow
     ), mimetype='text/plain')
@@ -37,7 +37,7 @@ def generate_file():
 # Run a dev server
 if __name__ == '__main__':
     sys.dont_write_bytecode = True  # prevent clutter
-    app.debug = True  # enable debugging mode
+    application.debug = True  # enable debugging mode
     FORMAT = "[%(filename)18s:%(lineno)-4s - %(funcName)18s() ] %(message)s"
     logging.basicConfig(level=logging.DEBUG, format=FORMAT)  # enable debugging output
-    app.run(threaded=True)  # run threaded to prevent a broken pipe error
+    application.run(threaded=True)  # run threaded to prevent a broken pipe error
