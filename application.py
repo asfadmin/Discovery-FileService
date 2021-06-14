@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import request
+from flask import stream_with_context
 from flask_cors import CORS
 from flask_talisman import Talisman
 from math import ceil
@@ -29,13 +30,13 @@ def generate_file():
 
     file_size = min(int(request.values.get('bytes', 1000)), int(1e10))  # 10GB max
     slow = int(request.values.get('slow', 0))  # microseconds between file chunks
-    return application.response_class(generate_data(
+    return application.response_class(stream_with_context(generate_data(
         file_size=file_size,
         slow=slow
     ), mimetype='text/plain',
     headers={
         'content-length': 1000 * ceil(file_size / 1000)
-    })
+    }))
 
 
 # Run a dev server
