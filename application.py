@@ -2,6 +2,7 @@ from flask import Flask
 from flask import request
 from flask_cors import CORS
 from flask_talisman import Talisman
+from math import ceil
 import sys
 import logging
 import string
@@ -31,7 +32,10 @@ def generate_file():
     return application.response_class(generate_data(
         file_size=file_size,
         slow=slow
-    ), mimetype='text/plain')
+    ), mimetype='text/plain',
+    headers={
+        'content-length': 1000 * ceil(file_size / 1000)
+    })
 
 
 # Run a dev server
