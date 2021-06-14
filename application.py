@@ -26,7 +26,7 @@ def generate_file():
             if slow > 0:
                 time.sleep(slow / 100000)
 
-    file_size = min(int(request.values.get('bytes', 1000)), 1e10)  # 10GB max
+    file_size = min(int(request.values.get('bytes', 1000)), int(1e10))  # 10GB max
     slow = int(request.values.get('slow', 0))  # microseconds between file chunks
     return application.response_class(generate_data(
         file_size=file_size,
