@@ -15,6 +15,12 @@ CORS(application, send_wildcard=True)
 talisman = Talisman(application)
 
 
+# Add a default endpoint for health checks
+@application.route('/')
+def health_report():
+    return 'I feel fine'
+
+
 # Just send a file
 @application.route('/generate', methods = ['GET', 'POST'])
 def generate_file():
