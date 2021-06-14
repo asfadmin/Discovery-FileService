@@ -39,10 +39,10 @@ def generate_file():
     return application.response_class(stream_with_context(generate_data(
         file_size=file_size,
         slow=slow
-    ), mimetype='text/plain',
-    headers={
-        'content-length': 1000 * ceil(file_size / 1000)
-    }))
+    )), mimetype='text/plain',
+        headers={
+            'content-length': 1000 * ceil(file_size / 1000)
+    })
 
 
 # Run a dev server
